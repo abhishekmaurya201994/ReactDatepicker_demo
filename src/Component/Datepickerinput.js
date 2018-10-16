@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
+
+
 var chk1 = [];var chkpoin2=[];
 class DatePickerInput extends Component {
 

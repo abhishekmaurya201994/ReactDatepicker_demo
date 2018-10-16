@@ -14,11 +14,11 @@ class App extends Component {
     this.state = {
       checkpointInterval: [{
         id: 1,
-        interval: 2
+        interval: 3
       },{
         
           id: 2,
-          interval: 3
+          interval: 4
         
       }
     ]
