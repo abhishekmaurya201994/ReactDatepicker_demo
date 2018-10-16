@@ -23,6 +23,7 @@
 }
 .appcenter{
   margin-left: 30%;
+  list-style: none;
 }
 @keyframes App-logo-spin {
   from {

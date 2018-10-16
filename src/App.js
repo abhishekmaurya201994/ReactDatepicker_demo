@@ -1,26 +1,39 @@
 import React, { Component } from 'react';
+// import * as React from 'react';
+
+
 // import logo from './logo.svg';
-// import './App.css';
+import './App.css';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+// import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import DatePickerInput from './Component/Datepickerindex';
+import DatePickerInput from '../src/Component/Datepickerinput';
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
+      checkpointInterval: [{
+        id: 1,
+        interval: 2
+      },{
+        
+          id: 2,
+          interval: 3
+        
+      }
+    ]
     };
-  
+
   }
 
 
- 
+
   render() {
 
-  
+
     return (
       <div>
-  <DatePickerInput />
+        <DatePickerInput checkpointInterval={this.state.checkpointInterval} />
       </div>
     );
   }
