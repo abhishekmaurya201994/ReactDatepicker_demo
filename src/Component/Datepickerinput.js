@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 
 
-var chk1 = [];var chkpoin2=[];
+var chkpoint_start = [];var chkpoint_end=[];
 class DatePickerInput extends Component {
 
   constructor(props) {
@@ -14,17 +14,17 @@ class DatePickerInput extends Component {
       endDate:'',
       checkpoint: [],checkpointend:[]
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange_startDate= this.handleChange_startDate.bind(this);
     this.handleChange_endDate = this.handleChange_endDate.bind(this);
     this.handle_midDate = this.handle_midDate.bind(this);
 
-    this.diffTest = this.diffTest.bind(this);
+    this.getchkpointvalue = this.getchkpointvalue.bind(this);
     
     this.chkselecteddate=this.chkselecteddate.bind(this);
 
   }
 
-  handleChange(e) {
+  handleChange_startDate(e) {
 
 
 var d2= this.chkselecteddate(e.target.value);
@@ -85,16 +85,16 @@ if(d2){
   componentWillMount() {
 
     for (let i = 0; i < this.props.checkpointInterval[0].interval; i++) {
-      chk1.push(i);
+      chkpoint_start.push(i);
     
     }
     for (let i = 0; i < this.props.checkpointInterval[1].interval; i++) {
-      chkpoin2.push(i);
+      chkpoint_end.push(i);
     
     }
 
   }
-  diffTest() {
+  getchkpointvalue() {
 
     
     
@@ -190,7 +190,7 @@ if(d2){
       <div>
 
 
-        {chk1.map((item, index) => (
+        {chkpoint_start.map((item, index) => (
           <li key={index} >
             <div>
             </div>
@@ -209,7 +209,7 @@ if(d2){
   renderPickerEndDate(){
     return(
 <div>
-{chkpoin2.map((item, index) => (
+{chkpoint_end.map((item, index) => (
   <li key={index} >
         <div>
     </div>
@@ -233,7 +233,7 @@ if(d2){
       <br/>
         <label>Start Date</label>
        
-           <input type="date" value={this.state.startDate} onChange={this.handleChange}  />
+           <input type="date" value={this.state.startDate} onChange={this.handleChange_startDate}  />
         {this.renderPickerDate()}
 
 
@@ -241,12 +241,12 @@ if(d2){
         <label>Mid Date</label>
         <input type="date" value={this.state.midDate} onChange={this.handle_midDate} />
         <br />
-{this.renderPickerEndDate()}
+          {this.renderPickerEndDate()}
 <br/>
 <label>End Date</label>
 <input type="date" value={this.state.endDate} onChange={this.handleChange_endDate} />
         <br/>
-        <button onClick={this.diffTest}>Save</button>
+        <button onClick={this.getchkpointvalue}>Save</button>
       </div>
     );
   }

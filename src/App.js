@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 // import logo from './logo.svg';
 import './App.css';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 // import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePickerInput from '../src/Component/Datepickerinput';
