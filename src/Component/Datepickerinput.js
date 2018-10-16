@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import '../App.css';
-
-
-var chkpoint_start = []; var chkpoint_end = [];
 class DatePickerInput extends Component {
 
   constructor(props) {
     super(props);
-
+    this.chkpoint_start = [];
+    this.chkpoint_end = [];
     this.state = {
       startDate: '',
       midDate: '',
@@ -25,11 +23,9 @@ class DatePickerInput extends Component {
   }
 
   handleChange_startDate(e) {
+    var validated_date = this.chkselecteddate(e.target.value);
 
-
-    var d2 = this.chkselecteddate(e.target.value);
-
-    if (d2) {
+    if (validated_date) {
       this.setState({
         startDate: e.target.value
       });
@@ -40,9 +36,10 @@ class DatePickerInput extends Component {
       });
     }
   }
+
   handleChange_endDate(e) {
-    let d2 = this.chkselecteddate(e.target.value);
-    if (d2) {
+    let validated_date = this.chkselecteddate(e.target.value);
+    if (validated_date) {
       this.setState({
         endDate: e.target.value
       })
@@ -55,8 +52,8 @@ class DatePickerInput extends Component {
   }
 
   handle_midDate(e) {
-    let d2 = this.chkselecteddate(e.target.value);
-    if (d2) {
+    let validated_date = this.chkselecteddate(e.target.value);
+    if (validated_date) {
       this.setState({
         midDate: e.target.value
       })
@@ -69,12 +66,10 @@ class DatePickerInput extends Component {
   }
 
   chkselecteddate(d) {
-    d = new Date(d);
-
-    if (d.getDay() == 0 || d.getDay() == 6) {
+    let chk_day = new Date(d);
+    if (chk_day.getDay() == 0 || chk_day.getDay() == 6) {
       alert("Day should not be sat and sun");
       return false;
-
     }
     else {
       return true;
@@ -84,22 +79,17 @@ class DatePickerInput extends Component {
 
   componentWillMount() {
 
+    
     for (let i = 0; i < this.props.checkpointInterval[0].interval; i++) {
-      chkpoint_start.push(i);
-
+      this.chkpoint_start.push(i);
     }
     for (let i = 0; i < this.props.checkpointInterval[1].interval; i++) {
-      chkpoint_end.push(i);
-
+      this.chkpoint_end.push(i);
     }
-
   }
   getchkpointvalue() {
-
-
-
     let self = this;
-    var a = []; var b = [];
+    var checkpoint_str_mid = []; var checkpoint_mid_end = [];
     if (this.state.startDate && this.state.midDate) {
       if (this.state.startDate < this.state.midDate) {
         let checkpointInterval = this.props.checkpointInterval[0].interval;
@@ -119,16 +109,16 @@ class DatePickerInput extends Component {
 
           checkpointInputDate.setDate(new Date(this.state.startDate).getDate() + checkpointIntData);
           checkpointInputDate = this.validateWeekendDate(checkpointInputDate)
-          a.push(new Date(checkpointInputDate).toLocaleDateString());
-          this.setState({ checkpoint: a });
+          checkpoint_str_mid.push(new Date(checkpointInputDate).toLocaleDateString());
+          this.setState({ checkpoint: checkpoint_str_mid });
           checkpointInputDate = new Date(this.state.startDate);
         }
 
       }
       else {
-        a = [];
+        checkpoint_str_mid = [];
         alert("Start date should be less than mid date");
-        this.setState({ checkpoint: a });
+
       }
     }
     else {
@@ -151,12 +141,11 @@ class DatePickerInput extends Component {
           /*To do*/
           let checkpointInputDate = new Date(this.state.midDate);
 
-
           checkpointInputDate.setDate(new Date(this.state.midDate).getDate() + checkpointIntData);
 
           checkpointInputDate = this.validateWeekendDate(checkpointInputDate)
-          b.push(new Date(checkpointInputDate).toLocaleDateString());
-          this.setState({ checkpointend: b });
+          checkpoint_mid_end.push(new Date(checkpointInputDate).toLocaleDateString());
+          this.setState({ checkpointend: checkpoint_mid_end });
           checkpointInputDate = new Date(this.state.midDate);
         }
       } else {
@@ -170,7 +159,7 @@ class DatePickerInput extends Component {
 
   validateWeekendDate(checkpointInputDate) {
     checkpointInputDate = new Date(checkpointInputDate);
-    if (checkpointInputDate.getDay() == 6) {
+    if (checkpointInputDate.getDay() == 6) {//
       checkpointInputDate.setDate(new Date(checkpointInputDate).getDate() - 1);
     }
     if (checkpointInputDate.getDay() == 0) {
@@ -180,17 +169,10 @@ class DatePickerInput extends Component {
     return checkpointInputDate;
   }
 
-
-
   renderPickerDate() {
-
-
-
     return (
       <div>
-
-
-        {chkpoint_start.map((item, index) => (
+        {this.chkpoint_start.map((item, index) => (
           <li key={index} >
             <div>
             </div>
@@ -200,21 +182,18 @@ class DatePickerInput extends Component {
             <input type="text" value={this.state.checkpoint[index] ? this.state.checkpoint[index] : ''} readOnly />
           </li>
         ))}
-
       </div>
-
     )
   }
 
   renderPickerEndDate() {
     return (
       <div>
-        {chkpoint_end.map((item, index) => (
+        {this.chkpoint_end.map((item, index) => (
           <li key={index} >
             <div>
             </div>
             <br />
-
             <label>checkpoint {index + 1}</label><br />
             <input type="text" value={this.state.checkpointend[index] ? this.state.checkpointend[index] : ''} readOnly />
 
@@ -226,24 +205,20 @@ class DatePickerInput extends Component {
 
 
   render() {
-
-
     return (
       <div className="appcenter">
         <br />
-        <label>Start Date</label>
+        <label>Start Date</label>&nbsp;
 
         <input type="date" value={this.state.startDate} onChange={this.handleChange_startDate} />
         {this.renderPickerDate()}
-
-
         <br />
-        <label>Mid Date</label>
+        <label>Mid Date</label>&nbsp;
         <input type="date" value={this.state.midDate} onChange={this.handle_midDate} />
         <br />
         {this.renderPickerEndDate()}
         <br />
-        <label>End Date</label>
+        <label>End Date</label>&nbsp;
         <input type="date" value={this.state.endDate} onChange={this.handleChange_endDate} />
         <br />
         <button onClick={this.getchkpointvalue}>Save</button>
