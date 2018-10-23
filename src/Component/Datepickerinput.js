@@ -19,7 +19,7 @@ class DatePickerInput extends Component {
     this.getchkpointvalue = this.getchkpointvalue.bind(this);
 
     this.chkselecteddate = this.chkselecteddate.bind(this);
-    this.getinterval=this.getinterval.bind(this);
+    this.getinterval = this.getinterval.bind(this);
 
   }
 
@@ -88,22 +88,21 @@ class DatePickerInput extends Component {
       this.chkpoint_end.push(i);
     }
   }
+  
   getchkpointvalue() {
     let self = this;
     var checkpoint_str_mid; var checkpoint_mid_end;
     if (this.state.startDate && this.state.midDate) {
       if (this.state.startDate < this.state.midDate) {
         let checkpointInterval = this.props.checkpointInterval[0].interval;
-       checkpoint_str_mid= this.getinterval(this.state.startDate,this.state.midDate,checkpointInterval);
+        checkpoint_str_mid = this.getinterval(this.state.startDate, this.state.midDate, checkpointInterval);
 
-       this.setState({ checkpoint: checkpoint_str_mid });
-
-         
+        this.setState({ checkpoint: checkpoint_str_mid });
 
 
       }
       else {
-        checkpoint_str_mid = [];
+
         alert("Start date should be less than mid date");
 
       }
@@ -112,14 +111,14 @@ class DatePickerInput extends Component {
       alert("Please insert Start date and mid date");
     }
     if (this.state.midDate && this.state.endDate) {
+
+      let checkpointInterval = this.props.checkpointInterval[1].interval;
+
       if (this.state.midDate < this.state.endDate) {
-        let checkpointInterval = this.props.checkpointInterval[1].interval;
-        
-      if (this.state.midDate < this.state.endDate) {
-        checkpoint_mid_end=this.getinterval(this.state.midDate,this.state.endDate,checkpointInterval);
+        checkpoint_mid_end = this.getinterval(this.state.midDate, this.state.endDate, checkpointInterval);
         this.setState({ checkpointend: checkpoint_mid_end });
 
-        
+
 
       } else {
         alert("Mid Date Should be less than End Date");
@@ -129,11 +128,11 @@ class DatePickerInput extends Component {
       alert("Please insert Mid Date and End date");
     }
   }
-}
 
-  getinterval(chk1,chk2,interval_chk) {
+
+  getinterval(chk1, chk2, interval_chk) {
     let checkpointInterval = interval_chk;
-    let intervalpoints=[];
+    let intervalpoints = [];
     let date1 = new Date(chk1);
     let date2 = new Date(chk2);
 
