@@ -19,6 +19,7 @@ class DatePickerInput extends Component {
     this.getchkpointvalue = this.getchkpointvalue.bind(this);
 
     this.chkselecteddate = this.chkselecteddate.bind(this);
+    this.getinterval=this.getinterval.bind(this);
 
   }
 
@@ -79,7 +80,7 @@ class DatePickerInput extends Component {
 
   componentWillMount() {
 
-    
+
     for (let i = 0; i < this.props.checkpointInterval[0].interval; i++) {
       this.chkpoint_start.push(i);
     }
@@ -89,30 +90,16 @@ class DatePickerInput extends Component {
   }
   getchkpointvalue() {
     let self = this;
-    var checkpoint_str_mid = []; var checkpoint_mid_end = [];
+    var checkpoint_str_mid; var checkpoint_mid_end;
     if (this.state.startDate && this.state.midDate) {
       if (this.state.startDate < this.state.midDate) {
         let checkpointInterval = this.props.checkpointInterval[0].interval;
-        let date1 = new Date(this.state.startDate);
-        let date2 = new Date(this.state.midDate);
+       checkpoint_str_mid= this.getinterval(this.state.startDate,this.state.midDate,checkpointInterval);
 
-        let timeDiff = Math.abs(date2.getTime() - date1.getTime());
-        let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+       this.setState({ checkpoint: checkpoint_str_mid });
 
-        let interval = Math.round(diffDays / checkpointInterval);
+         
 
-        var tomorrow = new Date();
-        for (let i = 1; i <= checkpointInterval; i++) {
-          let checkpointIntData = interval * i;
-          /*To do*/
-          let checkpointInputDate = date1;
-
-          checkpointInputDate.setDate(new Date(this.state.startDate).getDate() + checkpointIntData);
-          checkpointInputDate = this.validateWeekendDate(checkpointInputDate)
-          checkpoint_str_mid.push(new Date(checkpointInputDate).toLocaleDateString());
-          this.setState({ checkpoint: checkpoint_str_mid });
-          checkpointInputDate = new Date(this.state.startDate);
-        }
 
       }
       else {
@@ -127,27 +114,13 @@ class DatePickerInput extends Component {
     if (this.state.midDate && this.state.endDate) {
       if (this.state.midDate < this.state.endDate) {
         let checkpointInterval = this.props.checkpointInterval[1].interval;
-        let date1 = new Date(this.state.midDate);
-        let date2 = new Date(this.state.endDate);
+        
+      if (this.state.midDate < this.state.endDate) {
+        checkpoint_mid_end=this.getinterval(this.state.midDate,this.state.endDate,checkpointInterval);
+        this.setState({ checkpointend: checkpoint_mid_end });
 
-        let timeDiff = Math.abs(date2.getTime() - date1.getTime());
-        let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        
 
-        let interval = Math.round(diffDays / checkpointInterval);
-
-        var tomorrow = new Date();
-        for (let i = 1; i <= checkpointInterval; i++) {
-          let checkpointIntData = interval * i;
-          /*To do*/
-          let checkpointInputDate = new Date(this.state.midDate);
-
-          checkpointInputDate.setDate(new Date(this.state.midDate).getDate() + checkpointIntData);
-
-          checkpointInputDate = this.validateWeekendDate(checkpointInputDate)
-          checkpoint_mid_end.push(new Date(checkpointInputDate).toLocaleDateString());
-          this.setState({ checkpointend: checkpoint_mid_end });
-          checkpointInputDate = new Date(this.state.midDate);
-        }
       } else {
         alert("Mid Date Should be less than End Date");
       }
@@ -155,6 +128,32 @@ class DatePickerInput extends Component {
     else {
       alert("Please insert Mid Date and End date");
     }
+  }
+}
+
+  getinterval(chk1,chk2,interval_chk) {
+    let checkpointInterval = interval_chk;
+    let intervalpoints=[];
+    let date1 = new Date(chk1);
+    let date2 = new Date(chk2);
+
+    let timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    let interval = Math.round(diffDays / checkpointInterval);
+
+    var tomorrow = new Date();
+    for (let i = 1; i <= checkpointInterval; i++) {
+      let checkpointIntData = interval * i;
+      /*To do*/
+      let checkpointInputDate = new Date(date1);
+
+      checkpointInputDate.setDate(new Date(date1).getDate() + checkpointIntData);
+
+      checkpointInputDate = this.validateWeekendDate(checkpointInputDate)
+      intervalpoints.push(new Date(checkpointInputDate).toLocaleDateString());
+    }
+    return intervalpoints;
   }
 
   validateWeekendDate(checkpointInputDate) {
